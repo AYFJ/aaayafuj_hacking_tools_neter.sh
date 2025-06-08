@@ -1,0 +1,86 @@
+#!/bin/bash
+
+#===========================================================
+# aaayafuj_hacking_tools_neter.sh
+# Version: 1.0
+# Author: aaayafuj
+# Description: Full-stack ethical hacking installer + launcher
+#===========================================================
+
+banner() {
+clear
+cat << "EOF"
+
+██████╗  █████╗  █████╗ ██╗   ██╗ █████╗ ███████╗██╗   ██╗██╗███╗   ██╗
+██╔══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝██╔══██╗██╔════╝██║   ██║██║████╗  ██║
+██████╔╝███████║███████║ ╚████╔╝ ███████║███████╗██║   ██║██║██╔██╗ ██║
+██╔═══╝ ██╔══██║██╔══██║  ╚██╔╝  ██╔══██║╚════██║██║   ██║██║██║╚██╗██║
+██║     ██║  ██║██║  ██║   ██║   ██║  ██║███████║╚██████╔╝██║██║ ╚████║
+╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝
+       [ aaayafuj_hacking_tools_neter.sh ] v1.0
+EOF
+}
+
+#--- Check dependencies ---#
+check_deps() {
+    echo "[+] Installing dependencies..."
+    sudo apt update -y && sudo apt upgrade -y
+    sudo apt install -y curl wget git python3 python3-pip php nmap sqlmap metasploit-framework net-tools
+    pip3 install requests beautifulsoup4 colorama
+}
+
+#--- Create Link Utility ---#
+create_link() {
+    echo "[+] Generating temporary payload link with Serveo.net"
+    read -p "Enter local port to expose (e.g., 8080): " port
+    ssh -R 80:localhost:$port serveo.net
+}
+
+#--- Menu Options ---#
+main_menu() {
+    banner
+    echo -e "\n[1] Start Nmap Recon"
+    echo "[2] Start SQLMap Injection"
+    echo "[3] Generate Payload Link"
+    echo "[4] Launch Net AAA Chat (Legal)"
+    echo "[5] Open aaayafuj Marketplace"
+    echo "[6] Update Tools"
+    echo "[7] Exit"
+    echo -ne "\nChoose an option: "; read choice
+    case $choice in
+        1) nmap_recon;;
+        2) sqlmap_inject;;
+        3) create_link;;
+        4) net_aaa_chat;;
+        5) xdg-open "https://aaayafuj-marketplace.create.xyz";;
+        6) check_deps;;
+        7) exit 0;;
+        *) echo "[!] Invalid option"; sleep 1; main_menu;;
+    esac
+}
+
+nmap_recon() {
+    read -p "Target IP/Range: " target
+    sudo nmap -sS -A -T4 $target
+    pause
+}
+
+sqlmap_inject() {
+    read -p "Enter vulnerable URL: " url
+    sqlmap -u "$url" --batch --random-agent --banner
+    pause
+}
+
+net_aaa_chat() {
+    xdg-open "https://net-aaa-chat.create.xyz"
+    pause
+}
+
+pause() {
+    read -p "Press Enter to return to menu..."
+    main_menu
+}
+
+#--- Start Tool ---#
+check_deps
+main_menu
