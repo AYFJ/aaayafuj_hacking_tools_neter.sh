@@ -210,5 +210,14 @@ Any misuse of aaayafuj_hacking_tools_neter.sh is not the responsibility of the d
     - Build `.deb` or `.apk` installer
     - Create a legal + restricted dual-terminal interface split (for cert access)
     
-    This README is locked and loaded. Copy-paste it straight into your GitHub. Want a commit template t
+    This README is locked and loaded. Copy-paste it straight into your GitHub. Want a commit template 
+
+# 📦 How to Set It Up
+* Save this as: aaayafuj_search_tools.sh
+* Make executable:
+# bash
+    chmod +x aaayafuj_search_tools.sh
+* Run it:
+# bash
+    ./aaayafuj_search_tools.sh
 ⚠️ LEGAL USE ONLY. All tools included follow ethical hacking protocols. 
